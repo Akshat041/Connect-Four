@@ -147,39 +147,45 @@ function GameController(
           }
         }
       }
+
+      // for columns
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 4; j++) {
+          if (
+            brd[i][j].getValue() === playerToken &&
+            brd[i][j + 1].getValue() === playerToken &&
+            brd[i][j + 2].getValue() === playerToken &&
+            brd[i][j + 3].getValue() === playerToken &&
+            brd[i][j].getValue() === brd[i][j + 1].getValue() &&
+            brd[i][j].getValue() === brd[i][j + 2].getValue() &&
+            brd[i][j].getValue() === brd[i][j + 3].getValue()
+          ) {
+            console.log(`${getActivePlayer().name} Wins!`);
+            return true;
+          }
+        }
+      }
+
+      // for diagonals
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 4; j++) {
+          if (
+            brd[i][j].getValue() === playerToken &&
+            brd[i][j + 1].getValue() === playerToken &&
+            brd[i][j + 2].getValue() === playerToken &&
+            brd[i][j + 3].getValue() === playerToken &&
+            brd[i][j].getValue() === brd[i][j + 1].getValue() &&
+            brd[i][j].getValue() === brd[i][j + 2].getValue() &&
+            brd[i][j].getValue() === brd[i][j + 3].getValue()
+          ) {
+            console.log(`${getActivePlayer().name} Wins!`);
+            return true;
+          }
+        }
+      }
       return false;
-
-      //   // for columns
-      //   for (let i = 0; i < 2; i++) {
-      //     for (let j = 0; j < 7; j++) {
-      //       if (
-      //         // brd[i][j].getValue() === getActivePlayer().token &&
-      //         brd[i][j].getValue() === brd[i + 1][j].getValue() &&
-      //         brd[i][j].getValue() === brd[i + 2][j].getValue() &&
-      //         brd[i][j].getValue() === brd[i + 3][j].getValue()
-      //       ) {
-      //         console.log(`${getActivePlayer().name} Wins!`);
-      //         return true;
-      //       }
-      //     }
-      //   }
-
-      //   // for diagonals
-      //   for (let i = 0; i < 2; i++) {
-      //     for (let j = 0; j < 4; j++) {
-      //       if (
-      //         // brd[i][j].getValue() === getActivePlayer().token &&
-      //         brd[i][j].getValue() === brd[i + 1][j + 1].getValue() &&
-      //         brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
-      //         brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
-      //       ) {
-      //         console.log(`${getActivePlayer().name} Wins!`);
-      //         return true;
-      //       }
-      //     }
-      //   }
     };
-    // Switch player turn
+
     if (checkWinner()) {
       return;
     }
@@ -199,11 +205,10 @@ function GameController(
 }
 
 const game = GameController();
-game.playRound(0);
-game.playRound(0);
-game.playRound(1);
-game.playRound(1);
-game.playRound(2);
-game.playRound(2);
-game.playRound(3);
+// game.playRound(0);
+// game.playRound(0);
+// game.playRound(1);
+// game.playRound(1);
+// game.playRound(2);
+// game.playRound(2);
 // game.playRound(3);
