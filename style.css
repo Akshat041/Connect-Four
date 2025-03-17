@@ -1,13 +1,14 @@
 .board {
   display: grid;
-  height: 500px;
-  width: 500px;
+  height: 600px;
+  width: 600px;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
   border: 1px solid black;
   gap: 2px;
-  padding: 2px;
-  background-color: yellow;
+  padding: 20px;
+  background-color: rgb(33, 174, 255);
+  border-radius: 10px;
 }
 
 .cell {
@@ -19,4 +20,13 @@
   border: 1px solid grey;
   background: lightyellow;
   cursor: pointer;
+}
+
+button {
+  color: white;
+  background-color: rgb(252, 155, 65);
+  border-radius: 100px;
+  width: 80px;
+  height: 80px;
+  font-size: 2rem;
 }

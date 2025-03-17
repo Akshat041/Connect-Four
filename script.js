@@ -38,7 +38,6 @@ function Gameboard() {
     // If no cells make it through the filter,
     // the move is invalid. Stop execution.
     if (!availableCells.length) {
-      console.log(`It's a Draw!-----------`);
       return;
     }
 
@@ -54,7 +53,6 @@ function Gameboard() {
     const boardWithCellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
-    console.log(boardWithCellValues);
   };
 
   // Here, we provide an interface for the rest of our
@@ -118,7 +116,6 @@ function GameController(
 
   const printNewRound = () => {
     board.printBoard();
-    console.log(`${getActivePlayer().name}'s turn.`);
   };
 
   const checkWinner = () => {
@@ -137,7 +134,6 @@ function GameController(
           brd[i][j].getValue() === brd[i][j + 2].getValue() &&
           brd[i][j].getValue() === brd[i][j + 3].getValue()
         ) {
-          console.log(`${getActivePlayer().name} Wins!`);
           return { winner: getActivePlayer().name, isGameOver: true };
         }
       }
@@ -155,7 +151,6 @@ function GameController(
           brd[i][j].getValue() === brd[i + 2][j].getValue() &&
           brd[i][j].getValue() === brd[i + 3][j].getValue()
         ) {
-          console.log(`${getActivePlayer().name} Wins!`);
           return { winner: getActivePlayer().name, isGameOver: true };
         }
       }
@@ -173,7 +168,6 @@ function GameController(
           brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
           brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
         ) {
-          console.log(`${getActivePlayer().name} Wins!`);
           return { winner: getActivePlayer().name, isGameOver: true };
         }
       }
@@ -191,7 +185,6 @@ function GameController(
           brd[i][j].getValue() === brd[i + 2][j - 2].getValue() &&
           brd[i][j].getValue() === brd[i + 3][j - 3].getValue()
         ) {
-          console.log(`${getActivePlayer().name} Wins!`);
           return { winner: getActivePlayer().name, isGameOver: true };
         }
       }
@@ -213,9 +206,6 @@ function GameController(
 
   const playRound = (column) => {
     // Drop a token for the current player
-    console.log(
-      `Dropping ${getActivePlayer().name}'s token into column ${column}...`
-    );
     board.dropToken(column, getActivePlayer().token);
 
     const winResult = checkWinner();
