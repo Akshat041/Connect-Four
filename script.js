@@ -184,6 +184,7 @@ function GameController(
         }
       }
 
+      //for right diagonals
       for (let i = 0; i < 3; i++) {
         for (let j = 6; j >= 3; j--) {
           if (
@@ -219,6 +220,7 @@ function GameController(
   return {
     playRound,
     getActivePlayer,
+    getBoard: board.getBoard,
   };
 }
 
@@ -228,17 +230,33 @@ function ScreenController() {
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
 
-  game.playRound(0);
-  game.playRound(1);
-  game.playRound(1);
-  game.playRound(2);
-  game.playRound(2);
-  game.playRound(3);
-  game.playRound(2);
-  game.playRound(3);
-  game.playRound(3);
-  game.playRound(5);
-  game.playRound(3);
+  const updateScreen = () => {
+    boardDiv.textContent = "";
+
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+
+    board.forEach((row) => {
+      row.forEach((cell, index) => {
+        const cellButton = document.createElement("button");
+        cellButton.dataset.column = index; // data-column
+        cellButton.textContent = cell.getValue();
+        boardDiv.appendChild(cellButton);
+      });
+    });
+  };
+
+  function clickHandlerEvent(e) {
+    const selectedColumn = e.target.dataset.column;
+    if (!selectedColumn) return;
+
+    game.playRound(selectedColumn);
+    updateScreen();
+  }
+  boardDiv.addEventListener("click", clickHandlerEvent);
+
+  updateScreen();
 }
 
-const screen = ScreenController();
+ScreenController();
