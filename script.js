@@ -37,7 +37,10 @@ function Gameboard() {
 
     // If no cells make it through the filter,
     // the move is invalid. Stop execution.
-    if (!availableCells.length) return;
+    if (!availableCells.length) {
+      console.log(`It's a Draw!-----------`);
+      return;
+    }
 
     // Otherwise, I have a valid cell, the last one in the filtered array
     const lowestRow = availableCells.length - 1;
@@ -110,11 +113,102 @@ function GameController(
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
+
   const getActivePlayer = () => activePlayer;
 
   const printNewRound = () => {
     board.printBoard();
     console.log(`${getActivePlayer().name}'s turn.`);
+  };
+
+  const checkWinner = () => {
+    // for rows
+    const brd = board.getBoard();
+    const playerToken = getActivePlayer().token;
+
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < 4; j++) {
+        if (
+          brd[i][j].getValue() === playerToken &&
+          brd[i][j + 1].getValue() === playerToken &&
+          brd[i][j + 2].getValue() === playerToken &&
+          brd[i][j + 3].getValue() === playerToken &&
+          brd[i][j].getValue() === brd[i][j + 1].getValue() &&
+          brd[i][j].getValue() === brd[i][j + 2].getValue() &&
+          brd[i][j].getValue() === brd[i][j + 3].getValue()
+        ) {
+          console.log(`${getActivePlayer().name} Wins!`);
+          return { winner: getActivePlayer().name, isGameOver: true };
+        }
+      }
+    }
+
+    // for columns
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 7; j++) {
+        if (
+          brd[i][j].getValue() === playerToken &&
+          brd[i + 1][j].getValue() === playerToken &&
+          brd[i + 2][j].getValue() === playerToken &&
+          brd[i + 3][j].getValue() === playerToken &&
+          brd[i][j].getValue() === brd[i + 1][j].getValue() &&
+          brd[i][j].getValue() === brd[i + 2][j].getValue() &&
+          brd[i][j].getValue() === brd[i + 3][j].getValue()
+        ) {
+          console.log(`${getActivePlayer().name} Wins!`);
+          return { winner: getActivePlayer().name, isGameOver: true };
+        }
+      }
+    }
+
+    // for left diagonals
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 4; j++) {
+        if (
+          brd[i][j].getValue() === playerToken &&
+          brd[i + 1][j + 1].getValue() === playerToken &&
+          brd[i + 2][j + 2].getValue() === playerToken &&
+          brd[i + 3][j + 3].getValue() === playerToken &&
+          brd[i][j].getValue() === brd[i + 1][j + 1].getValue() &&
+          brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
+          brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
+        ) {
+          console.log(`${getActivePlayer().name} Wins!`);
+          return { winner: getActivePlayer().name, isGameOver: true };
+        }
+      }
+    }
+
+    //for right diagonals
+    for (let i = 0; i < 3; i++) {
+      for (let j = 6; j >= 3; j--) {
+        if (
+          brd[i][j].getValue() === playerToken &&
+          brd[i + 1][j - 1].getValue() === playerToken &&
+          brd[i + 2][j - 2].getValue() === playerToken &&
+          brd[i + 3][j - 3].getValue() === playerToken &&
+          brd[i][j].getValue() === brd[i + 1][j - 1].getValue() &&
+          brd[i][j].getValue() === brd[i + 2][j - 2].getValue() &&
+          brd[i][j].getValue() === brd[i + 3][j - 3].getValue()
+        ) {
+          console.log(`${getActivePlayer().name} Wins!`);
+          return { winner: getActivePlayer().name, isGameOver: true };
+        }
+      }
+    }
+    return { winner: null, isGameOver: false };
+  };
+
+  const isDraw = () => {
+    const brd = board.getBoard();
+    for (let row of brd) {
+      for (let cell of row) {
+        if (cell.getValue() === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   };
 
   const playRound = (column) => {
@@ -124,92 +218,19 @@ function GameController(
     );
     board.dropToken(column, getActivePlayer().token);
 
-    /*  This is where we would check for a winner and handle that logic,
-          such as a win message. */
-    const checkWinner = () => {
-      // for rows
-      const brd = board.getBoard();
-      const playerToken = getActivePlayer().token;
+    const winResult = checkWinner();
 
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 4; j++) {
-          if (
-            brd[i][j].getValue() === playerToken &&
-            brd[i][j + 1].getValue() === playerToken &&
-            brd[i][j + 2].getValue() === playerToken &&
-            brd[i][j + 3].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i][j + 1].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 2].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 3].getValue()
-          ) {
-            console.log(`${getActivePlayer().name} Wins!`);
-            return true;
-          }
-        }
-      }
-
-      // for columns
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 7; j++) {
-          if (
-            brd[i][j].getValue() === playerToken &&
-            brd[i + 1][j].getValue() === playerToken &&
-            brd[i + 2][j].getValue() === playerToken &&
-            brd[i + 3][j].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i + 1][j].getValue() &&
-            brd[i][j].getValue() === brd[i + 2][j].getValue() &&
-            brd[i][j].getValue() === brd[i + 3][j].getValue()
-          ) {
-            console.log(`${getActivePlayer().name} Wins!`);
-            return true;
-          }
-        }
-      }
-
-      // for left diagonals
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 4; j++) {
-          if (
-            brd[i][j].getValue() === playerToken &&
-            brd[i + 1][j + 1].getValue() === playerToken &&
-            brd[i + 2][j + 2].getValue() === playerToken &&
-            brd[i + 3][j + 3].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i + 1][j + 1].getValue() &&
-            brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
-            brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
-          ) {
-            console.log(`${getActivePlayer().name} Wins!`);
-            return true;
-          }
-        }
-      }
-
-      //for right diagonals
-      for (let i = 0; i < 3; i++) {
-        for (let j = 6; j >= 3; j--) {
-          if (
-            brd[i][j].getValue() === playerToken &&
-            brd[i + 1][j - 1].getValue() === playerToken &&
-            brd[i + 2][j - 2].getValue() === playerToken &&
-            brd[i + 3][j - 3].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i + 1][j - 1].getValue() &&
-            brd[i][j].getValue() === brd[i + 2][j - 2].getValue() &&
-            brd[i][j].getValue() === brd[i + 3][j - 3].getValue()
-          ) {
-            console.log(`${getActivePlayer().name} Wins!`);
-            return true;
-          }
-        }
-      }
-
-      return false;
-    };
-
-    if (checkWinner()) {
-      return;
+    if (winResult.isGameOver) {
+      return winResult;
     }
+
+    if (isDraw()) {
+      return { winner: "Draw", isGameOver: true };
+    }
+
     switchPlayerTurn();
     printNewRound();
+    return { winner: null, isGameOver: false };
   };
 
   // Initial play game message
@@ -218,6 +239,8 @@ function GameController(
   // For the console version, we will only use playRound, but we will need
   // getActivePlayer for the UI version, so I'm revealing it now
   return {
+    checkWinner,
+    isDraw,
     playRound,
     getActivePlayer,
     getBoard: board.getBoard,
@@ -229,6 +252,7 @@ function ScreenController() {
 
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
+  const resultDiv = document.querySelector(".result");
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -251,8 +275,17 @@ function ScreenController() {
     const selectedColumn = e.target.dataset.column;
     if (!selectedColumn) return;
 
-    game.playRound(selectedColumn);
+    const roundResult = game.playRound(selectedColumn);
     updateScreen();
+
+    if (roundResult.isGameOver) {
+      resultDiv.textContent =
+        roundResult.winner === "Draw"
+          ? "It's a Draw!"
+          : `${roundResult.winner} Wins!`;
+
+      boardDiv.removeEventListener("click", clickHandlerEvent);
+    }
   }
   boardDiv.addEventListener("click", clickHandlerEvent);
 
