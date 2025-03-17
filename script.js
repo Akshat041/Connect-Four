@@ -149,16 +149,16 @@ function GameController(
       }
 
       // for columns
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 4; j++) {
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 7; j++) {
           if (
             brd[i][j].getValue() === playerToken &&
-            brd[i][j + 1].getValue() === playerToken &&
-            brd[i][j + 2].getValue() === playerToken &&
-            brd[i][j + 3].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i][j + 1].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 2].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 3].getValue()
+            brd[i + 1][j].getValue() === playerToken &&
+            brd[i + 2][j].getValue() === playerToken &&
+            brd[i + 3][j].getValue() === playerToken &&
+            brd[i][j].getValue() === brd[i + 1][j].getValue() &&
+            brd[i][j].getValue() === brd[i + 2][j].getValue() &&
+            brd[i][j].getValue() === brd[i + 3][j].getValue()
           ) {
             console.log(`${getActivePlayer().name} Wins!`);
             return true;
@@ -166,23 +166,41 @@ function GameController(
         }
       }
 
-      // for diagonals
-      for (let i = 0; i < 6; i++) {
+      // for left diagonals
+      for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 4; j++) {
           if (
             brd[i][j].getValue() === playerToken &&
-            brd[i][j + 1].getValue() === playerToken &&
-            brd[i][j + 2].getValue() === playerToken &&
-            brd[i][j + 3].getValue() === playerToken &&
-            brd[i][j].getValue() === brd[i][j + 1].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 2].getValue() &&
-            brd[i][j].getValue() === brd[i][j + 3].getValue()
+            brd[i + 1][j + 1].getValue() === playerToken &&
+            brd[i + 2][j + 2].getValue() === playerToken &&
+            brd[i + 3][j + 3].getValue() === playerToken &&
+            brd[i][j].getValue() === brd[i + 1][j + 1].getValue() &&
+            brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
+            brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
           ) {
             console.log(`${getActivePlayer().name} Wins!`);
             return true;
           }
         }
       }
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 6; j >= 3; j--) {
+          if (
+            brd[i][j].getValue() === playerToken &&
+            brd[i + 1][j - 1].getValue() === playerToken &&
+            brd[i + 2][j - 2].getValue() === playerToken &&
+            brd[i + 3][j - 3].getValue() === playerToken &&
+            brd[i][j].getValue() === brd[i + 1][j - 1].getValue() &&
+            brd[i][j].getValue() === brd[i + 2][j - 2].getValue() &&
+            brd[i][j].getValue() === brd[i + 3][j - 3].getValue()
+          ) {
+            console.log(`${getActivePlayer().name} Wins!`);
+            return true;
+          }
+        }
+      }
+
       return false;
     };
 
@@ -204,11 +222,23 @@ function GameController(
   };
 }
 
-const game = GameController();
-// game.playRound(0);
-// game.playRound(0);
-// game.playRound(1);
-// game.playRound(1);
-// game.playRound(2);
-// game.playRound(2);
-// game.playRound(3);
+function ScreenController() {
+  const game = GameController();
+
+  const playerTurnDiv = document.querySelector(".turn");
+  const boardDiv = document.querySelector(".board");
+
+  game.playRound(0);
+  game.playRound(1);
+  game.playRound(1);
+  game.playRound(2);
+  game.playRound(2);
+  game.playRound(3);
+  game.playRound(2);
+  game.playRound(3);
+  game.playRound(3);
+  game.playRound(5);
+  game.playRound(3);
+}
+
+const screen = ScreenController();
