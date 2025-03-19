@@ -55,8 +55,12 @@ dialog {
 }
 
 dialog h1 {
-  margin-bottom: 40px;
+  margin-bottom: 16px;
   font-size: 2.5rem;
+}
+
+dialog p {
+  margin-bottom: 32px;
 }
 
 dialog input {
