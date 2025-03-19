@@ -32,7 +32,7 @@ function Gameboard() {
     // find all the rows that don't have a token, then take the
     // last one, which will represent the bottom-most empty cell
     const availableCells = board
-      .filter((row) => row[column].getValue() === 0)
+      .filter((row) => row[column].getValue() === "white")
       .map((row) => row[column]);
 
     // If no cells make it through the filter,
@@ -68,11 +68,11 @@ function Gameboard() {
  */
 
 function Cell() {
-  let value = 0;
+  let value = "white";
 
   // Accept a player's token to change the value of the cell
-  const addToken = (player) => {
-    value = player;
+  const addToken = (color) => {
+    value = color;
   };
 
   // How we will retrieve the current value of this cell through closure
@@ -98,11 +98,11 @@ function GameController(
   const players = [
     {
       name: playerOneName,
-      token: 1,
+      token: "red", // player 1's color
     },
     {
       name: playerTwoName,
-      token: 2,
+      token: "yellow", // player 2's color
     },
   ];
 
@@ -184,7 +184,7 @@ function GameController(
     const brd = board.getBoard();
     for (let row of brd) {
       for (let cell of row) {
-        if (cell.getValue() === 0) {
+        if (cell.getValue() === "white") {
           return false;
         }
       }
@@ -230,7 +230,6 @@ function ScreenController() {
 
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
-  // const resultDiv = document.querySelector(".result");
 
   const introDialog = document.querySelector("#introDialog");
   const introForm = document.querySelector("#introForm");
@@ -239,9 +238,6 @@ function ScreenController() {
   const playAgainBtn = document.querySelector("#playAgain");
   const winnerMessage = document.querySelector("#winnerMessage");
   const gameContainer = document.querySelector(".game-container");
-
-  const player1Name = document.querySelector("#player1");
-  const player2Name = document.querySelector("#player2");
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -255,7 +251,8 @@ function ScreenController() {
         const cellButton = document.createElement("button");
         cellButton.classList.add("cellBtn");
         cellButton.dataset.column = index; // data-column
-        cellButton.textContent = cell.getValue();
+        cellButton.style.backgroundColor = cell.getValue();
+        cellButton.disabled = cell.getValue() !== "white"; // Disable if not white
         boardDiv.appendChild(cellButton);
       });
     });
