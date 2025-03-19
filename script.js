@@ -129,10 +129,7 @@ function GameController(
           brd[i][j].getValue() === playerToken &&
           brd[i][j + 1].getValue() === playerToken &&
           brd[i][j + 2].getValue() === playerToken &&
-          brd[i][j + 3].getValue() === playerToken &&
-          brd[i][j].getValue() === brd[i][j + 1].getValue() &&
-          brd[i][j].getValue() === brd[i][j + 2].getValue() &&
-          brd[i][j].getValue() === brd[i][j + 3].getValue()
+          brd[i][j + 3].getValue() === playerToken
         ) {
           return { winner: getActivePlayer().name, isGameOver: true };
         }
@@ -146,10 +143,7 @@ function GameController(
           brd[i][j].getValue() === playerToken &&
           brd[i + 1][j].getValue() === playerToken &&
           brd[i + 2][j].getValue() === playerToken &&
-          brd[i + 3][j].getValue() === playerToken &&
-          brd[i][j].getValue() === brd[i + 1][j].getValue() &&
-          brd[i][j].getValue() === brd[i + 2][j].getValue() &&
-          brd[i][j].getValue() === brd[i + 3][j].getValue()
+          brd[i + 3][j].getValue() === playerToken
         ) {
           return { winner: getActivePlayer().name, isGameOver: true };
         }
@@ -163,10 +157,7 @@ function GameController(
           brd[i][j].getValue() === playerToken &&
           brd[i + 1][j + 1].getValue() === playerToken &&
           brd[i + 2][j + 2].getValue() === playerToken &&
-          brd[i + 3][j + 3].getValue() === playerToken &&
-          brd[i][j].getValue() === brd[i + 1][j + 1].getValue() &&
-          brd[i][j].getValue() === brd[i + 2][j + 2].getValue() &&
-          brd[i][j].getValue() === brd[i + 3][j + 3].getValue()
+          brd[i + 3][j + 3].getValue() === playerToken
         ) {
           return { winner: getActivePlayer().name, isGameOver: true };
         }
@@ -180,10 +171,7 @@ function GameController(
           brd[i][j].getValue() === playerToken &&
           brd[i + 1][j - 1].getValue() === playerToken &&
           brd[i + 2][j - 2].getValue() === playerToken &&
-          brd[i + 3][j - 3].getValue() === playerToken &&
-          brd[i][j].getValue() === brd[i + 1][j - 1].getValue() &&
-          brd[i][j].getValue() === brd[i + 2][j - 2].getValue() &&
-          brd[i][j].getValue() === brd[i + 3][j - 3].getValue()
+          brd[i + 3][j - 3].getValue() === playerToken
         ) {
           return { winner: getActivePlayer().name, isGameOver: true };
         }
