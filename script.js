@@ -238,11 +238,22 @@ function GameController(
 }
 
 function ScreenController() {
-  const game = GameController();
+  let game;
 
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
-  const resultDiv = document.querySelector(".result");
+  // const resultDiv = document.querySelector(".result");
+
+  const introDialog = document.querySelector("#introDialog");
+  const introForm = document.querySelector("#introForm");
+
+  const winnerDialog = document.querySelector("#winnerDialog");
+  const playAgainBtn = document.querySelector("#playAgain");
+  const winnerMessage = document.querySelector("#winnerMessage");
+  const gameContainer = document.querySelector(".game-container");
+
+  const player1Name = document.querySelector("#player1");
+  const player2Name = document.querySelector("#player2");
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -254,6 +265,7 @@ function ScreenController() {
     board.forEach((row) => {
       row.forEach((cell, index) => {
         const cellButton = document.createElement("button");
+        cellButton.classList.add("cellBtn");
         cellButton.dataset.column = index; // data-column
         cellButton.textContent = cell.getValue();
         boardDiv.appendChild(cellButton);
@@ -269,17 +281,43 @@ function ScreenController() {
     updateScreen();
 
     if (roundResult.isGameOver) {
-      resultDiv.textContent =
+      winnerMessage.textContent =
         roundResult.winner === "Draw"
           ? "It's a Draw!"
           : `${roundResult.winner} Wins!`;
 
+      winnerDialog.showModal();
+      gameContainer.style.display = "none";
+
       boardDiv.removeEventListener("click", clickHandlerEvent);
     }
   }
-  boardDiv.addEventListener("click", clickHandlerEvent);
 
-  updateScreen();
+  introDialog.showModal();
+
+  introForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const player1Name = document.querySelector("#player1").value;
+    const player2Name = document.querySelector("#player2").value;
+
+    game = GameController(player1Name, player2Name);
+
+    introDialog.close();
+
+    gameContainer.style.display = "block";
+
+    updateScreen();
+
+    boardDiv.addEventListener("click", clickHandlerEvent);
+  });
+
+  playAgainBtn.addEventListener("click", () => {
+    winnerDialog.close();
+    introDialog.showModal();
+
+    document.querySelector("#player1").value = "";
+    document.querySelector("#player2").value = "";
+  });
 }
 
 ScreenController();
