@@ -44,6 +44,7 @@ function Gameboard() {
     // Otherwise, I have a valid cell, the last one in the filtered array
     const lowestRow = availableCells.length - 1;
     board[lowestRow][column].addToken(player);
+    return true;
   };
 
   // This method will be used to print our board to the console.
@@ -194,20 +195,20 @@ function GameController(
 
   const playRound = (column) => {
     // Drop a token for the current player
-    board.dropToken(column, getActivePlayer().token);
+    if (board.dropToken(column, getActivePlayer().token)) {
+      const winResult = checkWinner();
 
-    const winResult = checkWinner();
+      if (winResult.isGameOver) {
+        return winResult;
+      }
 
-    if (winResult.isGameOver) {
-      return winResult;
+      if (isDraw()) {
+        return { winner: "Draw", isGameOver: true };
+      }
+
+      switchPlayerTurn();
+      printNewRound();
     }
-
-    if (isDraw()) {
-      return { winner: "Draw", isGameOver: true };
-    }
-
-    switchPlayerTurn();
-    printNewRound();
     return { winner: null, isGameOver: false };
   };
 
