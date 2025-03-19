@@ -318,6 +318,14 @@ function ScreenController() {
     document.querySelector("#player1").value = "";
     document.querySelector("#player2").value = "";
   });
+
+  document.getElementById("restartGame").addEventListener("click", () => {
+    gameContainer.style.display = "none";
+    introDialog.showModal();
+    boardDiv.removeEventListener("click", clickHandlerEvent);
+    document.getElementById("player1").value = "";
+    document.getElementById("player2").value = "";
+  });
 }
 
 ScreenController();
